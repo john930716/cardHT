@@ -1,0 +1,16 @@
+*** Settings ***
+Test Setup
+Test Teardown
+
+*** Test Cases ***
+test_s_e
+    [Setup]    start
+    log     this is test case
+    [Teardown]    end
+
+*** Keywords ***
+start
+    log    this \ is \ start
+
+end
+    log    this is end

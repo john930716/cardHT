@@ -1,0 +1,8 @@
+*** Settings ***
+Resource          modle.robot
+
+*** Test Cases ***
+user
+    user_key    5
+    ${c}    add    1    2
+    log     ${c}

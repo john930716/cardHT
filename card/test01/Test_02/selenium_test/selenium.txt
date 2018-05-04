@@ -1,0 +1,16 @@
+*** Settings ***
+Library           Selenium2Library
+
+*** Test Cases ***
+selenium2
+    Open Browser    http://www.baidu.com    chrome
+    sleep    2
+    Maximize Browser Window
+    sleep    2
+    Input Text    id=kw    selenium
+    Click Button    id=su
+    sleep    2
+    ${title}    get title
+    Should Contain    ${title}    selenium_百度搜索
+    sleep    3
+    Close Browser

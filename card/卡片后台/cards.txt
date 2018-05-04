@@ -1,0 +1,108 @@
+*** Settings ***
+Test Setup        睡觉
+Test Teardown     关闭浏览器
+Library           Selenium2Library
+Resource          卡片后台专用.robot
+Library           Collections
+
+*** Test Cases ***
+检查卡片后台预发环境登录页名称是否正确
+    打开浏览器
+    ${name}    get text    css=#app > div > div:nth-child(1) > div > div
+    Should Contain    ${name}    卡片管理后台--预发测试
+    ${url}    Get Location
+    log    ${url}
+
+直接登录成功
+    打开浏览器
+    Input Text    css=#app > div > div.row > div > div:nth-child(2) > input[type="text"]    guo.yiming@kuyun.com
+    睡觉
+    Input Text    css=#app > div > div.row > div > div:nth-child(3) > input[type="password"]    John930716
+    睡觉
+    点击登录
+    睡觉
+    ${newtitle}    gettitle
+    Should Contain    ${newtitle}    卡片后台管理系统
+
+不输入账号
+    打开浏览器
+    正确输入密码    123456
+    点击登录
+    Wait Until Element Contains    css=#app > div > div:nth-child(1) > div > div    卡片管理后台--预发测试
+    ${NOuser}    get text    css=#app > div > div.row > div > div.lineRow.error-tip
+    Should Contain    ${NOuser}    未填写邮箱
+
+不输入密码
+    打开浏览器
+    Input Text    css=#app > div > div.row > div > div:nth-child(2) > input[type="text"]    guo.yiming@kuyun.com
+    点击登录
+    睡觉
+    ${tishi}    Get Text    css=#app > div > div.row > div > div.lineRow.error-tip
+    Should Contain    ${tishi}    未填写密码
+
+填写错误邮箱格式的账号
+    打开浏览器
+    睡觉
+    错误邮箱格式的账号    sdfjskfd.com
+    睡觉
+    点击登录
+    睡觉
+    ${NOuser}    get text    css=#app > div > div.row > div > div.lineRow.error-tip
+    Should Contain    ${NOuser}    邮箱格式错误
+
+正确的邮箱格式错误的密码
+    打开浏览器
+    Input Text    css=#app > div > div.row > div > div:nth-child(2) > input[type="text"]    guo.yiming@kuyun.com
+    睡觉
+    正确输入密码    John9307161
+    点击登录
+    睡觉
+    ${NOuser}    get text    css=#app > div > div.row > div > div.lineRow.error-tip
+    Should Contain    ${NOuser}    用户名或密码错误
+
+首页底部导航检查(kuyun官网)
+    打开浏览器
+    Click Element    css=#app > div > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > a
+    ${titles}    Get Window Titles
+    ${titles2}    Get From List    ${titles}    1
+    ${titles1}    Get From List    ${titles}    0
+    Select Window    title=${titles2}
+    ${kuyuntab}    Get Title
+    Should Contain    ${kuyuntab}    酷云互动
+
+首页底部导航检查(EYE)
+    打开浏览器
+    Click Element    css=#app > div > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > a
+    ${titles}    Get Window Titles
+    ${titles1}    Get From List    ${titles}    1
+    ${titles2}    Get From List    ${titles}    0
+    Select Window    title=${titles1}
+    ${eye}    Get Title
+    Should Contain    ${eye}    酷云EYE
+
+首页底部导航检查(关注我们)
+    打开浏览器
+    Click Element    css=#app > div > div:nth-child(3) > div:nth-child(1) > div.col.weibo > a
+    ${titles}    Get Window Titles
+    ${titles1}    Get From List    ${titles}    1
+    ${titles2}    Get From List    ${titles}    0
+    Select Window    ${titles1}
+    ${sina}    Get Title
+    Should Contain    ${sina}    Sina Visitor System
+
+首页底部导航栏检查（联系我们）
+    打开浏览器
+    Click Element    css=#app > div > div:nth-child(3) > div:nth-child(1) > div.col.contact > a
+    ${title}    Get Window Titles
+    ${titles1}    get from list    ${title}    1
+    ${titles2}    get from list    ${title}    0
+    Select Window    ${titles1}
+    ${联系我们}    Get Location
+    Should Contain    ${联系我们}    https://www.kuyun.com/web/contact.html
+
+首页coryright
+    打开浏览器
+    ${copy}    Get Text    css=#app > div > div:nth-child(3) > div:nth-child(2) > p
+    Should Contain    ${copy}    北京酷云互动科技有限公司 Copyright © Kuyun. All rights reserved. 京ICP备14013539号
+
+*** Keywords ***

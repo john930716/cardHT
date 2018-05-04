@@ -1,0 +1,42 @@
+*** Test Cases ***
+variable
+    ${a}    Set Variable    HELLO WORLD
+    log    ${a}
+    ${b}    Set Variable    Test
+    log    ${b}
+
+list
+    ${abc}    Create List    a    b    c
+    log    ${abc}
+    ${def}    Create List    d    e    f
+    log     ${def}
+
+Catenate
+    ${h1}    Catenate    hello    world
+    log    ${h1}
+
+time
+    ${t}    Get Time
+    log     ${t}
+    sleep    5
+    ${t}    Get Time
+    log     ${t}
+
+if
+    ${scrose}    Set Variable    1
+    Run Keyword If    ${scrose}>=90    log    good
+    ...    ELSE IF     ${scrose}>=70    log    良好
+    ...    ELSE IF     ${scrose}>=60    log    合格
+    ...    ELSE IF     ${scrose}<60    log    不合格
+
+for
+    :FOR    ${A}    IN RANGE     1     10
+    \    log     ${A}
+
+evauate
+    ${d}    Evaluate    random.randint(1,100)    random
+    log     ${d}
+
+time_py
+    ${py}    Evaluate    time.ctime()    time
+    log    ${py}
